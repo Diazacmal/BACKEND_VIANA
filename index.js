@@ -6,6 +6,7 @@ const http = require('http')
 const app = express()
 const server = http.createServer(app)
 const db = require('./components/queries')
+const ws = require('./components/websocket')
 
 
 //load config from env
@@ -30,6 +31,7 @@ app.get('/', (request, response) => {
 
 app.get('/rows', db.getRowsData)
 app.get('/kendaraan', db.getDataKendaraan)
+//app.get('/realtime', ws.getData)
 
 server.listen(port, () => {
     console.log('listening on *: ' + port);
