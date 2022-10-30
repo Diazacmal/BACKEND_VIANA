@@ -6,6 +6,8 @@
   "scripts": {
     "start": "nodemon index.js",
     "start-ws": "nodemon index-ws.js",
+    "prod-api": "NODE_ENV=production node index.js >> logs/access-rest.log 2>> logs/error-rest.log",
+    "prod-ws": "NODE_ENV=production node index-ws.js >> logs/access-ws.log 2>> logs/error-ws.log",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
