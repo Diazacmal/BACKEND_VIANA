@@ -1,6 +1,7 @@
 # misc
 .env
 /misc
+/logs
 
 # dependencies
 /node_modules
