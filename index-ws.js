@@ -15,10 +15,11 @@ const dotenv = require('dotenv')
 
 dotenv.config();
 const host = process.env.MQTT_HOST
-const port = process.env.MQTT_PORT
+const port_mqtt = process.env.MQTT_PORT
+const port = process.env.WS_PORT
 const clientId = `mqtt_${Math.random().toString(16).slice(3)}`
 
-const connectUrl = `mqtt://${host}:${port}`
+const connectUrl = `mqtt://${host}:${port_mqtt}`
 const client = mqtt.connect(connectUrl, {
     clientId,
     clean: true,
