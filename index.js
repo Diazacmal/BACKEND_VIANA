@@ -30,6 +30,7 @@ app.get('/', (request, response) => {
 })
 
 app.get('/rows', db.getRowsData)
+app.get('/charts', db.getChartData)
 app.get('/kendaraan', db.getDataKendaraan)
 //app.get('/realtime', ws.getData)
 
