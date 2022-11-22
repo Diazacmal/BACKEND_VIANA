@@ -6,13 +6,10 @@ const http = require('http')
 const app = express()
 const server = http.createServer(app)
 const db = require('./components/queries')
-const ws = require('./components/websocket')
-
 
 //load config from env
 dotenv.config();
 port = process.env.PORT
-//console.log(`Your port is `)
 
 app.use(bodyParser.json())
 app.use(
