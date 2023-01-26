@@ -22,13 +22,18 @@ app.use(cors({
     origin: '*'
 }))
 
-app.get('/', (request, response) => {
-    response.json({ info: 'Hello world' })
+
+
+app.get('/', (req, response) => {
+    response.json({ info: "hello world" })
 })
 
 app.get('/rows', db.getRowsData)
+
+
 app.get('/charts', db.getChartData)
 app.get('/kendaraan', db.getDataKendaraan)
+
 //app.get('/realtime', ws.getData)
 
 server.listen(port, () => {

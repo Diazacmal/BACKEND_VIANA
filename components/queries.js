@@ -1,4 +1,5 @@
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
+const { request, response } = require('express');
 const Pool = require('pg').Pool
 
 dotenv.config();
@@ -14,12 +15,13 @@ const getRowsData = (request, response) => {
   pool.query('SELECT * FROM analytics_results ORDER BY id DESC LIMIT 10', (error, results) => {
     if (error) {
       throw error
-    }
+    } 
     response.status(200).json(results.rows)
   })
 }
 
 const getChartData = (request, response) => {
+
   pool.query('SELECT * FROM analytics_results ORDER BY id DESC LIMIT 10', (error, results) => {
     if (error) {
       throw error
@@ -48,6 +50,7 @@ const getChartData = (request, response) => {
   })
 }
 
+
 const getDataKendaraan = (request, response) => {
   pool.query('SELECT date, sepeda, motor, mobil, bus, truk ' +
     'FROM analytics_results ' +
@@ -61,8 +64,12 @@ const getDataKendaraan = (request, response) => {
     })
 }
 
+
+
+
 module.exports = {
   getRowsData,
   getChartData,
-  getDataKendaraan
+  getDataKendaraan,
+  
 }

@@ -20,11 +20,20 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mqtt": "^4.3.7",
+    "node_module": "^0.0.0",
     "pg": "^8.8.0",
     "socket.io": "^4.5.3",
     "socket.io-client": "^4.5.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virbo/viana-service.git"
+  },
+  "bugs": {
+    "url": "https://github.com/virbo/viana-service/issues"
+  },
+  "homepage": "https://github.com/virbo/viana-service#readme"
 }
