@@ -1,11 +1,7 @@
-How to run
----
-to running rest api
-```
-npm start
-```
+ install Backend
+1. install  npm i node_modules
+2.install  npm i dontenv
+3. jalankan  npm start
 
-to running websocket
-```
-npm run start-ws
-```
+4. buat file .env
+5. sesuaikan dengan env-sample
