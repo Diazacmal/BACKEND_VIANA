@@ -1,0 +1,12 @@
+# Endpoint cctv
+http:localhost:4100/cctv
+
+#Endpoint menampilkan data keselurahan 
+http:localhost:4100/rows
+
+
+#Endpoint charts
+http:localhost:4100/charts
+
+#Endpoint kendaraan
+http:localhost:4100/kendaraan 

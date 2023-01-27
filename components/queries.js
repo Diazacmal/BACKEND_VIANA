@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+const moment= require('moment')
 const { request, response } = require('express');
 const Pool = require('pg').Pool
 
@@ -35,12 +36,12 @@ const getChartData = (request, response) => {
     let date = Array.prototype.map.call(rows, function (item) { return item.date; }).join(",");
 
     let datas = {
-      'date': date,
-      'mobil': mobil,
-      'motor': motor,
-      'bus': bus,
-      'truk': truk,
-      'sepeda': sepeda
+      'date': date.split(",").map((item)=> parseInt(item)),
+      'mobil':mobil.split(",").map((item) => parseInt(item)),
+      'motor': motor.split(",").map((item) => parseInt(item)),
+      'bus': bus.split(",").map((item) => parseInt(item)),
+      'truk': truk.split(",").map((item) => parseInt(item)),
+      'sepeda': sepeda.split(",").map((item) => parseInt(item))
     }
     //console.log(rows)
     //console.log('new: '+datas)
@@ -63,7 +64,15 @@ const getDataKendaraan = (request, response) => {
       response.status(200).json(rows)
     })
 }
-
+const getCCTV =(req,res)=>{
+  pool.query('SELECT * From  cameras ',(error,results)=>{
+if (error){
+  throw error
+}
+const hasil =results.rows
+res.status(200).json(hasil)
+  })
+}
 
 
 
@@ -71,5 +80,6 @@ module.exports = {
   getRowsData,
   getChartData,
   getDataKendaraan,
+  getCCTV
   
 }
