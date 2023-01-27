@@ -35,13 +35,13 @@ const getChartData = (request, response) => {
     let sepeda = Array.prototype.map.call(rows, function (item) { return item.sepeda; }).join(",");
     let date = Array.prototype.map.call(rows, function (item) { return item.date; }).join(",");
 
-    let datas = {
-      'date': date,
-      'mobil':mobil.split(",").map((item) => parseInt(item)),
-      'motor': motor.split(",").map((item) => parseInt(item)),
-      'bus': bus.split(",").map((item) => parseInt(item)),
-      'truk': truk.split(",").map((item) => parseInt(item)),
-      'sepeda': sepeda.split(",").map((item) => parseInt(item))
+    let datas = { 
+      'date': date.split(",").map((date)=>date),
+      'mobil':mobil.split(",").map((mobil) => mobil),
+      'motor': motor.split(",").map((motor) => motor),
+      'bus': bus.split(",").map((bus) =>bus ),
+      'truk': truk.split(",").map((truk) =>truk ),
+      'sepeda': sepeda.split(",").map((sepeda) =>sepeda )
     }
     //console.log(rows)
     //console.log('new: '+datas)
