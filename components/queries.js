@@ -36,7 +36,7 @@ const getChartData = (request, response) => {
     let date = Array.prototype.map.call(rows, function (item) { return item.date; }).join(",");
 
     let datas = {
-      'date': date.split(",").map((item)=> parseInt(item)),
+      'date': date,
       'mobil':mobil.split(",").map((item) => parseInt(item)),
       'motor': motor.split(",").map((item) => parseInt(item)),
       'bus': bus.split(",").map((item) => parseInt(item)),
