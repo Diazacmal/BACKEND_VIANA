@@ -5,7 +5,7 @@ const cors = require('cors')
 const http = require('http')
 const app = express()
 const server = http.createServer(app)
-const db = require('./components/queries')
+const db = require('./components/queries.js')
 
 
 //load config from env
@@ -36,6 +36,12 @@ app.get('/rows', db.getRowsData)
 app.get('/charts', db.getChartData)
 app.get('/kendaraan', db.getDataKendaraan)
 app.get('/cctv',db.getCCTV)
+app.get('/service',db.service)
+app.post('/addCC',db.addcctv)
+app.put('/update/:id',db.updatecctv)
+
+
+
 
 //app.get('/realtime', ws.getData)
 
