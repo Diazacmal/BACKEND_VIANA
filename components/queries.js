@@ -84,30 +84,47 @@ res.status(200).json(hasil)
 
  const addcctv =(req,res)=>{
   
-  const{id_user,name,rtsp_url}=req.body
-  console.log(req.body)
+  const{id_user,name,rtsp_url,longitude,latitude}=req.body
+  // console.log(req.body)
   
-  pool.query('SELECT s FROM  cameras s WHERE  s.name ',[name],(error,results)=>{
-
-        if(results){
-          return res.send( "nama terlah di gunakan mohon di ganti " )
-        }
-      })
-
-  // check if email  exits.
-  pool.query (`INSERT INTO cameras ( id_user,name,rtsp_url )   VALUES ( $1,$2,$3);`,
-  [id_user,name,rtsp_url],(error,result)=>{
-
-    if(error) throw error
-    {
-      res.status(201).send(" selamat data anda berhasil di input ")
+  pool.query('SELECT * From cameras  WHERE name=$1 ',[name],(error,results)=>{
+    if (error){
+      throw error
     }
+    try {
+      const hasil =results.rows.length
+    if(hasil){
+      res.send('data terlah ada ')
+    }else{
+      pool.query (`INSERT INTO cameras ( id_user,name,rtsp_url,latitude,longitude )   VALUES ( $1,$2,$3,$4,$5);`,
+      [id_user,name,rtsp_url,latitude,longitude],(error,result)=>{
+
+      if(error) throw error
+      {
+      res.status(201).send(" selamat data anda berhasil di input ")
+      }
   })
+    }
+    } catch (error) {;
+      console.log(err);
+      res.status(500).json({
+      error: "Database error tidak bisa menambahkan data  harap tunggu beberapa saat !", //Database connection error
+      });
+    
+    }
   
+
+  })
 }
+    
+
+  
+  
+  
+
 
 const updatecctv = async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id_user);
   const {id_user,name,rtsp_url} = req.body;
   await pool.query("select * from cameras  where id_user =$1", [id_user], (error, results) => {
     const Nodata = !results.rows.length;
@@ -127,7 +144,7 @@ const updatecctv = async (req, res) => {
 };
 
 const service =(req,res)=>{
-  pool.query('SELECT * From  services ',(error,results)=>{
+  pool.query('SELECT * From  services_viana ',(error,results)=>{
     if (error){
       throw error
     }
@@ -140,25 +157,204 @@ const service =(req,res)=>{
 
 const addservice =(req,res)=>{
   
-  const{id_service,name}=req.body
-  console.log(req.body)
-  db.query('SELECT s FROM   WHERE  s.username=$1 ',[username],(error,results)=>{
+  const{id,nama_feature,nama_service,status}=req.body
 
-        if(results.rows.length){
-          return res.send( "nama terlah di gunakan mohon di ganti " )
-        }
+  
+  pool.query('SELECT * From services_viana  WHERE nama_feature=$1 ',[nama_feature],(error,results)=>{
+    if (error){
+      throw error
+    }
+    try {
+      const hasil =results.rows.length
+    if(hasil){
+      res.send('data terlah ada ')
+    }else{
+      pool.query (`INSERT INTO service_viana ( id,nama_feature,nama_service,status )   VALUES ( $1,$2,$3,$4);`,
+      [id,nama_feature,nama_service,status],(error,result)=>{
+
+      if(error) throw error
+      {
+      res.status(201).send(" selamat data anda berhasil di input ")
+      }
+  })
+    }
+    } catch (error) {;
+      console.log(err);
+      res.status(500).json({
+      error: "Database error tidak bisa menambahkan data  harap tunggu beberapa saat !", //Database connection error
+      });
+    
+    }
+  
+
+  })
+}
+
+
+
+const  anomaly  =(req,res)=>{
+  pool.query('SELECT * From  anomaly_analiytics ',[],(error,results)=>{
+    if (error){
+      throw error
+    }
+    const hasil =results.rows
+    
+    res.status(200).json(hasil)
       })
-  // check if email  exits.
-  pool.query (`INSERT INTO services (id_service,name,rstp_url)   VALUES ( $1,$2);`,
-  [id_service,name,rtsp_url],(error,result)=>{
+}
+
+const add_anomaly =(req,res)=>{
+const{}=req.body
+pool.query('SELECT * From service_viana  WHERE name_feature=$1 ',[nama_feature],(error,results)=>{
+  if (error){
+    throw error
+  }
+  try {
+    const hasil =results.rows.length
+  if(hasil){
+    res.send('data terlah ada ')
+  }else{
+    pool.query (`INSERT INTO service_viana ( id,nama_feature,nama_service,status )   VALUES ( $1,$2,$3,$4);`,
+    [id,nama_feature,nama_service,status],(error,result)=>{
 
     if(error) throw error
     {
-      res.status(201).send(" selamat data anda berhasil di input ")
+    res.status(201).send(" selamat data anda berhasil di input ")
     }
-  })
+})
+  }
+  } catch (error) {;
+    console.log(err);
+    res.status(500).json({
+    error: "Database error tidak bisa menambahkan data  harap tunggu beberapa saat !", //Database connection error
+    });
   
 }
+})}
+const  fish =(req,res)=>{
+  pool.query('SELECT * From  fish_analiytics ',(error,results)=>{
+    if (error){
+      throw error
+    }
+    const hasil =results.rows
+    
+    res.status(200).json(hasil)
+      })
+}
+
+const add_fish=(req,res)=>{
+  const{id,jenis_ikan,berat_ikan,luas_ikan,gambar}=req.body
+  pool.query('SELECT * From fish_analytics WHERE id=$1 ',[id],(error,results)=>{
+    if (error){
+      throw error
+    }
+    try {
+      const hasil =results.rows.length
+    if(hasil){
+      res.send('data terlah ada ')
+    }else{
+      pool.query (`INSERT INTO fish_analytics (id,jenis_ikan,berat_ikan,luas_ikan,gambar )   VALUES ( $1,$2,$3,$4,$5,$6);`,
+      [id,jenis_ikan,berat_ikan,luas_ikan,gambar],(error,result)=>{
+
+      if(error) throw error
+      {
+      res.status(201).send(" selamat data anda berhasil di input ")
+      }
+  })
+    }
+    } catch (error) {;
+      console.log(err);
+      res.status(500).json({
+      error: "Database error tidak bisa menambahkan data  harap tunggu beberapa saat !", //Database connection error
+      });
+    
+    }
+  })}
+
+
+
+const  socialdistancing_analytic =(req,res)=>{
+  pool.query('SELECT * From  socialdistancing_analytic ',(error,results)=>{
+    if (error){
+      throw error
+    }
+    console.log(req.body)
+    const hasil =results.rows
+    
+    res.status(200).json(hasil)
+      })
+}
+
+const add_socialdistancing =(req,res)=>{
+  const{id,count_people,high_risk,low_risk}=req.body
+  pool.query('SELECT * From socialdistancing_analytic  WHERE id=$1 ',[id],(error,results)=>{
+    if (error){
+      throw error
+    }
+    try {
+      const hasil =results.rows.length
+    if(hasil){
+      res.send('data terlah ada ')
+    }else{
+      pool.query (`INSERT INTO service_viana ( id,count_people,high_risk,low_risk )   VALUES ( $1,$2,$3,$4);`,
+      [id,count_people,high_risk,low_risk,timestamps],(error,result)=>{
+
+      if(error) throw error
+      {
+      res.status(201).send(" selamat data anda berhasil di input ")
+      }
+  })
+    }
+    } catch (error) {;
+      console.log(err);
+      res.status(500).json({
+      error: "Database error tidak bisa menambahkan data  harap tunggu beberapa saat !", //Database connection error
+      });
+    }})
+}
+
+const  skpj  =(req,res)=>{
+  pool.query('SELECT * From  skpj_analytics ',(error,results)=>{
+    if (error){
+      throw error
+    }
+    const hasil =results.rows
+    
+    res.status(200).json(hasil)
+      })
+}
+const add_skpj =(req,res)=>{
+const {id,jenis_kerusakan,presentase_keyakinan,luas_kerusakan,timestamps,longitude,altitude,gambar}=req.body
+pool.query('SELECT * From skpj_analytics WHERE id=$1 ',[id],(error,results)=>{
+  if (error){
+    throw error 
+  }
+  try {
+    const hasil =results.rows.length
+  if(hasil){
+    res.send('data terlah ada ')
+  }else{
+    pool.query (`INSERT INTO skpj_analytics( id,jenis_kerusakan,presentase_keyakinan,luas_kerusakan,timestamps,longitude,altitude,gambar )   VALUES ( $1,$2,$3,$4,$5,$6,$7,$8);`,
+    [id,jenis_kerusakan,presentase_keyakinan,luas_kerusakan,timestamps,longitude,altitude,gambar],(error,result)=>{
+
+    if(error) throw error
+    {
+    res.status(201).send(" selamat data anda berhasil di input ")
+    }
+})
+  }
+  } catch (error) {;
+    console.log(err);
+    res.status(500).json({
+    error: "Database error tidak bisa menambahkan data  harap tunggu beberapa saat !", //Database connection error
+    });
+  }})
+
+}
+
+
+
+
 
 
 module.exports = {
@@ -169,5 +365,13 @@ module.exports = {
   addcctv,
   updatecctv,
   addservice,
-  service
+  service,
+  anomaly,
+  add_anomaly,
+  skpj,
+  add_skpj,
+  socialdistancing_analytic,
+  add_socialdistancing,
+  fish,
+  add_fish
 }
