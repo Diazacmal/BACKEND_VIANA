@@ -21,7 +21,7 @@ app.use(
 
 
 app.use(cors({
-    origin: '*'
+    origin: 'GET,POST,PUT'
 }))
 
 
@@ -36,7 +36,7 @@ app.get('/rows', db.getRowsData)
 app.get('/charts', db.getChartData)
 app.get('/kendaraan', db.getDataKendaraan)
 app.get('/cctv',db.getCCTV)
-app.get('/service',db.service)
+
 
 // data analitic
 
@@ -53,7 +53,7 @@ app.post('/addanomaly',db.add_anomaly)
 app.get('/socialdistancing',db.socialdistancing_analytic)
 app.post('/addsocial',db.add_socialdistancing)
 // endpoint service
-
+app.get('/service',db.service)
 app.post('/addservice',db.addservice)
 // endpoint cctv
 app.post('/addCC',db.addcctv)

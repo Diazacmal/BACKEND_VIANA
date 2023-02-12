@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 
 const { request, response } = require('express');
+const moment = require('moment/moment');
 const Pool = require('pg').Pool
 
 dotenv.config();
@@ -69,6 +70,8 @@ const getDataKendaraan = (request, response) => {
       response.status(200).json(rows)
     })
 }
+
+// CCTV 
 const getCCTV =(req,res)=>{
   pool.query('SELECT * From cameras ',(error,results)=>{
 if (error){
@@ -143,6 +146,8 @@ const updatecctv = async (req, res) => {
   }); 
 };
 
+
+// SERVICE_viana
 const service =(req,res)=>{
   pool.query('SELECT * From  services_viana ',(error,results)=>{
     if (error){
@@ -176,6 +181,11 @@ const addservice =(req,res)=>{
       {
       res.status(201).send(" selamat data anda berhasil di input ")
       }
+  },{
+
+    id:id.id,
+    nama_feature:nama_feature.nama_feature,
+    status:status.status
   })
     }
     } catch (error) {;
@@ -191,7 +201,7 @@ const addservice =(req,res)=>{
 }
 
 
-
+// ANOMALY_analiytics
 const  anomaly  =(req,res)=>{
   pool.query('SELECT * From  anomaly_analiytics ',[],(error,results)=>{
     if (error){
@@ -204,8 +214,8 @@ const  anomaly  =(req,res)=>{
 }
 
 const add_anomaly =(req,res)=>{
-const{}=req.body
-pool.query('SELECT * From service_viana  WHERE name_feature=$1 ',[nama_feature],(error,results)=>{
+const{id,jenis_anomaly,count,image,timestamps}=req.body
+pool.query('SELECT * From service_viana  WHERE jenis_anomaly=$1 ',[jenis_anomaly],(error,results)=>{
   if (error){
     throw error
   }
@@ -214,9 +224,15 @@ pool.query('SELECT * From service_viana  WHERE name_feature=$1 ',[nama_feature],
   if(hasil){
     res.send('data terlah ada ')
   }else{
-    pool.query (`INSERT INTO service_viana ( id,nama_feature,nama_service,status )   VALUES ( $1,$2,$3,$4);`,
-    [id,nama_feature,nama_service,status],(error,result)=>{
-
+    pool.query (`INSERT INTO service_viana ( id,jenis anomaly,count,image )   VALUES ( $1,$2,$3,$4);`,
+    [id,jenis_anomaly,count,image,timestamps],{
+      id:id.id,
+      jenis_anomaly:jenis_anomaly.jenis_anomaly,
+      count:count.count,
+      image:image.image,
+      timestamps:moment().format('HH-mm')
+    },
+    (error,result)=>{
     if(error) throw error
     {
     res.status(201).send(" selamat data anda berhasil di input ")
@@ -231,6 +247,8 @@ pool.query('SELECT * From service_viana  WHERE name_feature=$1 ',[nama_feature],
   
 }
 })}
+
+// FISH_analiytics
 const  fish =(req,res)=>{
   pool.query('SELECT * From  fish_analiytics ',(error,results)=>{
     if (error){
@@ -272,7 +290,7 @@ const add_fish=(req,res)=>{
   })}
 
 
-
+// SOCIAL_DISTANCING
 const  socialdistancing_analytic =(req,res)=>{
   pool.query('SELECT * From  socialdistancing_analytic ',(error,results)=>{
     if (error){
@@ -287,6 +305,7 @@ const  socialdistancing_analytic =(req,res)=>{
 
 const add_socialdistancing =(req,res)=>{
   const{id,count_people,high_risk,low_risk}=req.body
+  console.log(req.body)
   pool.query('SELECT * From socialdistancing_analytic  WHERE id=$1 ',[id],(error,results)=>{
     if (error){
       throw error
@@ -296,8 +315,8 @@ const add_socialdistancing =(req,res)=>{
     if(hasil){
       res.send('data terlah ada ')
     }else{
-      pool.query (`INSERT INTO service_viana ( id,count_people,high_risk,low_risk )   VALUES ( $1,$2,$3,$4);`,
-      [id,count_people,high_risk,low_risk,timestamps],(error,result)=>{
+      pool.query (`INSERT INTO socialdistancing_analytic ( id,count_people,high_risk,low_risk )   VALUES ( $1,$2,$3,$4);`,
+      [id,count_people,high_risk,low_risk],(error,result)=>{
 
       if(error) throw error
       {
@@ -313,6 +332,7 @@ const add_socialdistancing =(req,res)=>{
     }})
 }
 
+// SKPJ_ANALYTICS
 const  skpj  =(req,res)=>{
   pool.query('SELECT * From  skpj_analytics ',(error,results)=>{
     if (error){
