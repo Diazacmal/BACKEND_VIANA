@@ -20,8 +20,22 @@ app.use(
 )
 
 
+const whitelist = ["http://localhost:4100"]
+
+  
+
+
+
+// GET,POST,PUT
 app.use(cors({
-    origin: 'GET,POST,PUT'
+    origin: function (origin, callback) {
+        if (!origin || whitelist.indexOf(origin) !== -1) {
+          callback(null, true)
+        } else {
+          callback(new Error("Not allowed by CORS"))
+        }
+      },
+      credentials: true,
 }))
 
 
@@ -35,29 +49,31 @@ app.get('/rows', db.getRowsData)
 
 app.get('/charts', db.getChartData)
 app.get('/kendaraan', db.getDataKendaraan)
+// endpoint cctv
+app.post('/addCC',db.addcctv)
+app.put('/update/:id_user',db.updatecctv,(req,res)=>{
+  res.write(data)
+})
 app.get('/cctv',db.getCCTV)
 
 
 // data analitic
 
 // endpoint skpj_analitic
-app.get('/skpj',db.skpj)
-app.post('/addskpj',db.add_skpj)
-// endpoint fish_analitic
-app.get('/fish',db.fish)
-app.post('/addfish',db.add_fish)
-// endpoint anomaly_analitic
-app.get('/anomaly',db.anomaly)
-app.post('/addanomaly',db.add_anomaly)
-// endpoint social_distancing
-app.get('/socialdistancing',db.socialdistancing_analytic)
-app.post('/addsocial',db.add_socialdistancing)
-// endpoint service
-app.get('/service',db.service)
-app.post('/addservice',db.addservice)
-// endpoint cctv
-app.post('/addCC',db.addcctv)
-app.put('/update/:id_user',db.updatecctv)
+// app.get('/skpj',db.skpj)
+// app.post('/addskpj',db.add_skpj)
+// // endpoint fish_analitic
+// app.get('/fish',db.fish)
+// app.post('/addfish',db.add_fish)
+// // endpoint anomaly_analitic
+// app.get('/anomaly',db.anomaly)
+// app.post('/addanomaly',db.add_anomaly)
+// // endpoint social_distancing
+// app.get('/socialdistancing',db.socialdistancing_analytic)
+// app.post('/addsocial',db.add_socialdistancing)
+// // endpoint service
+// app.get('/service',db.service)
+// app.post('/addservice',db.addservice)
 
 
 

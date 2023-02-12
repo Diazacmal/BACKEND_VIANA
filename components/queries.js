@@ -127,20 +127,22 @@ res.status(200).json(hasil)
 
 
 const updatecctv = async (req, res) => {
-  const id = parseInt(req.params.id_user);
-  const {id_user,name,rtsp_url} = req.body;
+  const id_user = req.params.id_user;
+  
+  const {name,rtsp_url} = req.body;
   await pool.query("select * from cameras  where id_user =$1", [id_user], (error, results) => {
     const Nodata = !results.rows.length;
 
     if (Nodata) {
       res.send("nama ini tidak ada di database tidak bisa di update ");
+      
     }
    pool.query(
       `UPDATE cameras SET name=$1, rtsp_url=$2 WHERE id_user=$3;`,
-      [name,rtsp_url,id],
+      [name,rtsp_url,id_user],
       (error, results) => {
         if (error) throw error;
-        res.status(200).send(`akun ini berhasil di update dengan id = ${id}`);
+        res.status(200).send(`akun ini berhasil di update dengan id = ${id_user}`);
       }
     );
   }); 
@@ -174,7 +176,7 @@ const addservice =(req,res)=>{
     if(hasil){
       res.send('data terlah ada ')
     }else{
-      pool.query (`INSERT INTO service_viana ( id,nama_feature,nama_service,status )   VALUES ( $1,$2,$3,$4);`,
+      pool.query (`INSERT INTO services_viana ( id,nama_feature,nama_service,status )   VALUES ( $1,$2,$3,$4);`,
       [id,nama_feature,nama_service,status],(error,result)=>{
 
       if(error) throw error
