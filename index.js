@@ -42,7 +42,8 @@ app.get('/charts', db.getChartData)
 app.get('/kendaraan', db.getDataKendaraan)
 // endpoint cctv
 app.post('/addCC',db.addcctv)
-app.put('/update/:name',db.updatecctv,(req,res)=>{
+app.get('/data/:id',db.getidcctv)
+app.put('/update/:id',db.updatecctv,(req,res)=>{
   res.write(data)
 })
 app.get('/cctv',db.getCCTV)

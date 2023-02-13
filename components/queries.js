@@ -83,6 +83,16 @@ res.status(200).json(hasil)
   })
 }
 
+const getidcctv =(req,res)=>{
+  const id = req.params.id;
+  pool.query('SELECT * From cameras  WHERE id_camera =$1 ',[id],(error,results)=>{
+    if (error){
+      throw error
+    }
+    const hasil =results.rows
+    res.status(200).json({hasil})
+  })
+}
 
 
  const addcctv =(req,res)=>{
@@ -127,10 +137,10 @@ res.status(200).json(hasil)
 
 
 const updatecctv = async (req, res) => {
-  const name = req.params.name;
+  const id = req.params.id;
   
   const {rtsp_url} = req.body;
-  await pool.query("select * from cameras  where name =$1", [name], (error, results) => {
+  await pool.query("select * from cameras  where id =$1", [id], (error, results) => {
     const Nodata = !results.rows.length;
 
     if (Nodata) {
@@ -138,7 +148,7 @@ const updatecctv = async (req, res) => {
       
     }
    pool.query(
-      `UPDATE cameras SET  rtsp_url=$1 WHERE name = $2;`,
+      `UPDATE cameras SET  name = $1 , rtsp_url= $2 WHERE name = $3;`,
       [rtsp_url,name],
       (error, results) => {
         if (error) throw error;
@@ -384,6 +394,7 @@ module.exports = {
   getChartData,
   getDataKendaraan,
   getCCTV,
+  getidcctv,
   addcctv,
   updatecctv,
   addservice,
