@@ -20,7 +20,7 @@ app.use(
 )
 
 
-const whitelist = ["http://localhost:4100"]
+
 
   
 
@@ -42,7 +42,7 @@ app.get('/charts', db.getChartData)
 app.get('/kendaraan', db.getDataKendaraan)
 // endpoint cctv
 app.post('/addCC',db.addcctv)
-app.put('/update/:id_user',db.updatecctv,(req,res)=>{
+app.put('/update/:name',db.updatecctv,(req,res)=>{
   res.write(data)
 })
 app.get('/cctv',db.getCCTV)
@@ -51,20 +51,20 @@ app.get('/cctv',db.getCCTV)
 // data analitic
 
 // endpoint skpj_analitic
-// app.get('/skpj',db.skpj)
-// app.post('/addskpj',db.add_skpj)
-// // endpoint fish_analitic
-// app.get('/fish',db.fish)
-// app.post('/addfish',db.add_fish)
-// // endpoint anomaly_analitic
-// app.get('/anomaly',db.anomaly)
-// app.post('/addanomaly',db.add_anomaly)
-// // endpoint social_distancing
-// app.get('/socialdistancing',db.socialdistancing_analytic)
-// app.post('/addsocial',db.add_socialdistancing)
-// // endpoint service
-// app.get('/service',db.service)
-// app.post('/addservice',db.addservice)
+app.get('/skpj',db.skpj)
+app.post('/addskpj',db.add_skpj)
+// endpoint fish_analitic
+app.get('/fish',db.fish)
+app.post('/addfish',db.add_fish)
+// endpoint anomaly_analitic
+app.get('/anomaly',db.anomaly)
+app.post('/addanomaly',db.add_anomaly)
+// endpoint social_distancing
+app.get('/socialdistancing',db.socialdistancing_analytic)
+app.post('/addsocial',db.add_socialdistancing)
+// endpoint service
+app.get('/service',db.service)
+app.post('/addservice',db.addservice)
 
 
 

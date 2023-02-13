@@ -127,10 +127,10 @@ res.status(200).json(hasil)
 
 
 const updatecctv = async (req, res) => {
-  const id_user = req.params.id_user;
+  const name = req.params.name;
   
-  const {name,rtsp_url} = req.body;
-  await pool.query("select * from cameras  where id_user =$1", [id_user], (error, results) => {
+  const {rtsp_url} = req.body;
+  await pool.query("select * from cameras  where name =$1", [name], (error, results) => {
     const Nodata = !results.rows.length;
 
     if (Nodata) {
@@ -138,11 +138,11 @@ const updatecctv = async (req, res) => {
       
     }
    pool.query(
-      `UPDATE cameras SET name=$1, rtsp_url=$2 WHERE id_user=$3;`,
-      [name,rtsp_url,id_user],
+      `UPDATE cameras SET  rtsp_url=$1 WHERE name = $2;`,
+      [rtsp_url,name],
       (error, results) => {
         if (error) throw error;
-        res.status(200).send(`akun ini berhasil di update dengan id = ${id_user}`);
+        res.status(200).send(`akun ini berhasil di update dengan id = ${name}`);
       }
     );
   }); 
@@ -205,7 +205,7 @@ const addservice =(req,res)=>{
 
 // ANOMALY_analiytics
 const  anomaly  =(req,res)=>{
-  pool.query('SELECT * From  anomaly_analiytics ',[],(error,results)=>{
+  pool.query('SELECT * From  anomaly_analytics ',[],(error,results)=>{
     if (error){
       throw error
     }
@@ -217,7 +217,7 @@ const  anomaly  =(req,res)=>{
 
 const add_anomaly =(req,res)=>{
 const{id,jenis_anomaly,count,image,timestamps}=req.body
-pool.query('SELECT * From service_viana  WHERE jenis_anomaly=$1 ',[jenis_anomaly],(error,results)=>{
+pool.query('SELECT * From anomaly_analytics  WHERE jenis_anomaly=$1 ',[jenis_anomaly],(error,results)=>{
   if (error){
     throw error
   }
@@ -226,7 +226,7 @@ pool.query('SELECT * From service_viana  WHERE jenis_anomaly=$1 ',[jenis_anomaly
   if(hasil){
     res.send('data terlah ada ')
   }else{
-    pool.query (`INSERT INTO service_viana ( id,jenis anomaly,count,image )   VALUES ( $1,$2,$3,$4);`,
+    pool.query (`INSERT INTO anomaly_analytics ( id,jenis anomaly,count,image )   VALUES ( $1,$2,$3,$4);`,
     [id,jenis_anomaly,count,image,timestamps],{
       id:id.id,
       jenis_anomaly:jenis_anomaly.jenis_anomaly,
@@ -252,7 +252,7 @@ pool.query('SELECT * From service_viana  WHERE jenis_anomaly=$1 ',[jenis_anomaly
 
 // FISH_analiytics
 const  fish =(req,res)=>{
-  pool.query('SELECT * From  fish_analiytics ',(error,results)=>{
+  pool.query('SELECT * From  fish_analytics',(error,results)=>{
     if (error){
       throw error
     }
@@ -294,7 +294,7 @@ const add_fish=(req,res)=>{
 
 // SOCIAL_DISTANCING
 const  socialdistancing_analytic =(req,res)=>{
-  pool.query('SELECT * From  socialdistancing_analytic ',(error,results)=>{
+  pool.query('SELECT * From  socialdistancing_analytics ',(error,results)=>{
     if (error){
       throw error
     }
@@ -313,7 +313,7 @@ const add_socialdistancing =(req,res)=>{
       throw error
     }
     try {
-      const hasil =results.rows.length
+      const hasil =results.rows.length 
     if(hasil){
       res.send('data terlah ada ')
     }else{
@@ -395,5 +395,6 @@ module.exports = {
   socialdistancing_analytic,
   add_socialdistancing,
   fish,
-  add_fish
+  add_fish,
+  
 }
