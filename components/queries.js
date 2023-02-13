@@ -119,7 +119,7 @@ const getidcctv =(req,res)=>{
   })
     }
     } catch (error) {;
-      console.log(err);
+      console.log(error);
       res.status(500).json({
       error: "Database error tidak bisa menambahkan data  harap tunggu beberapa saat !", //Database connection error
       });
@@ -174,10 +174,10 @@ const service =(req,res)=>{
 
 const addservice =(req,res)=>{
   
-  const{id,nama_feature,nama_service,status}=req.body
+  const{id,nama_feature,nama_service}=req.body
 
   
-  pool.query('SELECT * From services_viana  WHERE nama_feature=$1 ',[nama_feature],(error,results)=>{
+  pool.query('SELECT * From services_viana2  WHERE nama_feature=$1 ',[nama_feature],(error,results)=>{
     if (error){
       throw error
     }
@@ -186,22 +186,17 @@ const addservice =(req,res)=>{
     if(hasil){
       res.send('data terlah ada ')
     }else{
-      pool.query (`INSERT INTO services_viana ( id,nama_feature,nama_service,status )   VALUES ( $1,$2,$3,$4);`,
-      [id,nama_feature,nama_service,status],(error,result)=>{
+      pool.query (`INSERT INTO services_viana2 ( nama_feature,nama_service )   VALUES ( $1,$2); `,
+      [nama_feature,nama_service],(error,result)=>{
 
       if(error) throw error
       {
       res.status(201).send(" selamat data anda berhasil di input ")
       }
-  },{
-
-    id:id.id,
-    nama_feature:nama_feature.nama_feature,
-    status:status.status
   })
     }
     } catch (error) {;
-      console.log(err);
+      console.log(error);
       res.status(500).json({
       error: "Database error tidak bisa menambahkan data  harap tunggu beberapa saat !", //Database connection error
       });
